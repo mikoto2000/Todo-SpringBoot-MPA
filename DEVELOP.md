@@ -42,7 +42,7 @@ or
 
 Visual Studio Code Dev Container Extension でこのディレクトリを開く
 
-### 実行
+### 開発時の実行
 
 ```sh
 mvn spring-boot:run
@@ -58,6 +58,14 @@ mvn clean package
 
 ```sh
 mvn test
+```
+
+### 本番環境での実行
+
+`--spring.profiles.active=prod` で本番環境の設定を読み込む。
+
+```sh
+java -jar target/todo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
 
