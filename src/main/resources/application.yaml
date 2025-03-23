@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: todo
+  profiles:
+    active: dev
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
