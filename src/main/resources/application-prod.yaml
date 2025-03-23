@@ -1,9 +1,9 @@
 # 本番環境設定
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/public
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB:public}
+    username: ${DB_USERNAME:admin}
+    password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
   thymeleaf:
     cache: true
