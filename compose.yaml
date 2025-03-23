@@ -1,0 +1,24 @@
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/base
+    ports:
+      - 0.0.0.0:8080:8080
+    command: "sleep infinity"
+    volumes:
+      - .:/workspaces
+  postgres:
+    image: postgres:17
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./.devcontainer/config/postgres/initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_DB: public
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - 0.0.0.0:5432:5432
+volumes:
+  postgres_data:
+    driver: local
+
