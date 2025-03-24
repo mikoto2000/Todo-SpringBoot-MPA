@@ -7,3 +7,20 @@ spring:
     driver-class-name: org.postgresql.Driver
   thymeleaf:
     cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: client-id
+            client-secret: client-secret
+            provider: keycloak
+            scope: openid
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+        provider:
+          keycloak:
+            issuer-uri: http://keycloak:8080/realms/myrealm
+
+server:
+  port: 8081
