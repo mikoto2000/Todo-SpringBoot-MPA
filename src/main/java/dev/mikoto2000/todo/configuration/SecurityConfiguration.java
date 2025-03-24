@@ -17,13 +17,20 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
         .authorizeHttpRequests(authorize -> authorize
-            // リソース系は誰でも見れる
+            // ルートとリソース系は誰でも見れる
             .requestMatchers("/", "/public/**").permitAll()
             // /users 以下へのアクセスには admin 権限が必要
             .requestMatchers("/admin").hasAuthority("admin")
             // それ以外へのアクセスは認証だけは必要
             .anyRequest().authenticated()
-        ).oauth2Login();
+        )
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/")
+        )
+        .oauth2Login();
+
+        http.csrf();
 
         return http.build();
     }
