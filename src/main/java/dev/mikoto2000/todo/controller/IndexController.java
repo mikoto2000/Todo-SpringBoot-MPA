@@ -5,6 +5,8 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import dev.mikoto2000.todo.dto.TodoDto;
 import dev.mikoto2000.todo.service.TodoService;
@@ -39,5 +41,16 @@ public class IndexController {
     model.addAttribute("todos", todoDtos);
 
     return "index";
+  }
+
+  @PostMapping("/addTodo")
+  public String add(
+      @AuthenticationPrincipal OidcUser user,
+      @RequestParam String title) {
+
+    // Todo の追加
+    todoService.addTodo(user.getEmail(), title);
+
+    return "redirect:/";
   }
 }

@@ -33,4 +33,12 @@ public class TodoService {
         .map(e -> new Todo(e.getId(), e.getTitle(), e.isDone()))
         .toList();
   }
+
+  /**
+   * addTodo
+   */
+  public void addTodo(String email, String title) {
+    // Todo を追加
+    todoMapper.insert(email, title);
+  }
 }
