@@ -9,23 +9,36 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import dev.mikoto2000.todo.dto.TodoDto;
+import dev.mikoto2000.todo.service.TodoService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@RequiredArgsConstructor
 @Controller
 @Slf4j
 public class IndexController {
+
+  /**
+   * TodoService
+   */
+  private final TodoService todoService;
 
   @GetMapping("/")
   public String index(
       @AuthenticationPrincipal OidcUser user,
       Model model) {
 
+    // Todo の取得
+    var todos = todoService.getTodos();
+
+    // TodoDto に変換
+    var todoDtos = todos.stream()
+        .map(e -> new TodoDto(e.getId(), e.getTitle(), e.isDone()))
+        .toList();
+
+    // モデルに attribute をセット
     model.addAttribute("user", user);
-    model.addAttribute("todos", List.of(
-          new TodoDto(1, "todo1", false),
-          new TodoDto(2, "todo2", true),
-          new TodoDto(3, "todo3", false)
-          ));
+    model.addAttribute("todos", todoDtos);
 
     return "index";
   }
