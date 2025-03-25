@@ -19,10 +19,21 @@
   <h2>Todo List</h2>
   <th:block th:each="todo : ${todos}">
     <div>
-      <span th:text="${todo.getTitle()}"></span>
-      <form class="done-button">
+      <span
+        class="todo-title"
+        th:text="${todo.getTitle()}"
+        th:classappend="${todo.done} ? 'done' : 'open'"></span>
+      <form
+        class="done-button"
+        th:classappend="${todo.done} ? 'done' : 'open'">
         <input type="hidden" name="id" th:value="${todo.getId()}" />
         <input type="submit" th:value="Done" />
+      </form>
+      <form
+        class="reopen-button"
+        th:classappend="${todo.done} ? 'done' : 'open'">
+        <input type="hidden" name="id" th:value="${todo.getId()}" />
+        <input type="submit" th:value="Reopen" />
       </form>
       <form class="delete-button">
         <input type="hidden" name="id" th:value="${todo.getId()}" />

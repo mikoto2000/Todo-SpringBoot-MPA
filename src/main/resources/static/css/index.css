@@ -1,6 +1,26 @@
-form.done-button,form.delete-button {
+form.done-button,form.delete-button,form.reopen-button {
   display: inline;
   margin: 0;
   padding: 0;
   border: 0;
+}
+
+span.todo-title.done {
+  text-decoration: line-through;
+}
+
+.done-button.open {
+  display: unset;
+}
+
+.done-button.done {
+  display: none;
+}
+
+.reopen-button.open {
+  display: none;
+}
+
+.reopen-button.done {
+  display: unset;
 }
