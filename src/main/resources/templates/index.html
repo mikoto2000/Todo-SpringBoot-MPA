@@ -2,10 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Index Page</title>
+    <title>TODO Application</title>
 </head>
 <body>
-  <h1>Index</h1>
+  <h1>TODO Application</h1>
+  <div>User: <span th:text="${user.getEmail()}"></span></div>
+
+  <h2>Add Todo</h2>
+  <form th:action="@{/addTodo}" method="post">
+    <input type="text" name="title" placeholder="Title" />
+    <input type="hidden" name="email" th:value="${user.getEmail()}" />
+    <input type="submit" value="Add" />
+  </form>
+
+  <h2>Todo List</h2>
+  <th:block th:each="todo : ${todos}">
+    <form>
+      <span th:text="${todo}"></span>
+    </form>
+  </th:block>
+
+  <h2>Test</h2>
   <a href="hello">hello</a>
 </body>
 </html>
