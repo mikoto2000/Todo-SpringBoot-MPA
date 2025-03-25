@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>TODO Application</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
 </head>
 <body>
   <h1>TODO Application</h1>
@@ -17,9 +18,17 @@
 
   <h2>Todo List</h2>
   <th:block th:each="todo : ${todos}">
-    <form>
-      <span th:text="${todo}"></span>
-    </form>
+    <div>
+      <span th:text="${todo.getTitle()}"></span>
+      <form class="done-button">
+        <input type="hidden" name="id" th:value="${todo.getId()}" />
+        <input type="submit" th:value="Done" />
+      </form>
+      <form class="delete-button">
+        <input type="hidden" name="id" th:value="${todo.getId()}" />
+        <input type="submit" th:value="Delete" />
+      </form>
+    </div>
   </th:block>
 
   <h2>Test</h2>
