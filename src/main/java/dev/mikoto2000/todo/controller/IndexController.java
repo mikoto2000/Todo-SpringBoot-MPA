@@ -26,10 +26,12 @@ public class IndexController {
   @GetMapping("/")
   public String index(
       @AuthenticationPrincipal OidcUser user,
-      Model model) {
+      Model model,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "5") int size) {
 
     // Todo の取得
-    var todos = todoService.getTodos(user.getEmail());
+    var todos = todoService.getTodos(user.getEmail(), page, size);
 
     // TodoDto に変換
     var todoDtos = todos.stream()
@@ -39,6 +41,8 @@ public class IndexController {
     // モデルに attribute をセット
     model.addAttribute("user", user);
     model.addAttribute("todos", todoDtos);
+    model.addAttribute("page", page);
+    model.addAttribute("size", size);
 
     return "index";
   }
@@ -46,31 +50,37 @@ public class IndexController {
   @PostMapping("/addTodo")
   public String add(
       @AuthenticationPrincipal OidcUser user,
-      @RequestParam String title) {
+      @RequestParam String title,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "5") int size) {
 
     // Todo の追加
     todoService.addTodo(user.getEmail(), title);
 
-    return "redirect:/";
+    return "redirect:/" + "?page=" + page + "&size=" + size;
   }
 
   @PostMapping("/deleteTodo")
-  public String delete(@RequestParam long id) {
+  public String delete(@RequestParam long id,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "5") int size) {
 
     // Todo の削除
     todoService.deleteTodo(id);
 
-    return "redirect:/";
+    return "redirect:/" + "?page=" + page + "&size=" + size;
   }
 
   @PostMapping("/updateTodo")
   public String update(
       @RequestParam long id,
-      @RequestParam boolean done) {
+      @RequestParam boolean done,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "5") int size) {
 
     // Todo の更新
     todoService.updateTodo(id, done);
 
-    return "redirect:/";
+    return "redirect:/" + "?page=" + page + "&size=" + size;
   }
 }

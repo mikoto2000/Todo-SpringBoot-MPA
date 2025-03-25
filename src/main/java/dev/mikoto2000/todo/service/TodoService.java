@@ -23,10 +23,10 @@ public class TodoService {
   /**
    * getTodos
    */
-  public List<Todo> getTodos(String email) {
+  public List<Todo> getTodos(String email, int page, int size) {
 
     // ユーザーの Todo を取得
-    var todos = todoMapper.findByEmail(email);
+    var todos = todoMapper.findByEmail(email, page * size, size);
 
     // Todo に変換して返却
     return todos.stream()

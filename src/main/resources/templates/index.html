@@ -30,6 +30,8 @@
         th:classappend="${todo.done} ? 'done' : 'open'">
         <input type="hidden" name="id" th:value="${todo.getId()}" />
         <input type="hidden" name="done" th:value="true" />
+        <input type="hidden" name="page" th:value="${page}" />
+        <input type="hidden" name="size" th:value="${size}" />
         <input type="submit" th:value="Done" />
       </form>
       <form
@@ -39,10 +41,14 @@
         th:classappend="${todo.done} ? 'done' : 'open'">
         <input type="hidden" name="id" th:value="${todo.getId()}" />
         <input type="hidden" name="done" th:value="false" />
+        <input type="hidden" name="page" th:value="${page}" />
+        <input type="hidden" name="size" th:value="${size}" />
         <input type="submit" th:value="Reopen" />
       </form>
       <form th:action="@{/deleteTodo}" method="post" class="delete-button">
         <input type="hidden" name="id" th:value="${todo.getId()}" />
+        <input type="hidden" name="page" th:value="${page}" />
+        <input type="hidden" name="size" th:value="${size}" />
         <input type="submit" th:value="Delete" />
       </form>
     </div>
