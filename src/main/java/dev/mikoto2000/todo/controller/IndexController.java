@@ -1,7 +1,5 @@
 package dev.mikoto2000.todo.controller;
 
-import java.util.List;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
@@ -29,7 +27,7 @@ public class IndexController {
       Model model) {
 
     // Todo の取得
-    var todos = todoService.getTodos();
+    var todos = todoService.getTodos(user.getEmail());
 
     // TodoDto に変換
     var todoDtos = todos.stream()

@@ -1,7 +1,7 @@
 # 本番環境設定
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB:public}
+    url: jdbc:postgresql://${POSTGRES_HOST:postgres}:5432/${POSTGRES_DB:todo}
     username: ${DB_USERNAME:admin}
     password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
