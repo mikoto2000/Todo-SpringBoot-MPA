@@ -62,4 +62,15 @@ public class IndexController {
 
     return "redirect:/";
   }
+
+  @PostMapping("/updateTodo")
+  public String update(
+      @RequestParam long id,
+      @RequestParam boolean done) {
+
+    // Todo の更新
+    todoService.updateTodo(id, done);
+
+    return "redirect:/";
+  }
 }

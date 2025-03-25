@@ -49,4 +49,12 @@ public class TodoService {
     // Todo を削除
     todoMapper.delete(id);
   }
+
+  /**
+   * updateTodo
+   */
+  public void updateTodo(long id, boolean done) {
+    // Todo を更新
+    todoMapper.update(id, done);
+  }
 }

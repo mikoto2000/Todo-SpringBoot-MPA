@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import dev.mikoto2000.todo.entity.TodoEntity;
 
@@ -22,4 +23,7 @@ public interface TodoMapper {
 
   @Delete("delete from todo where id = #{id}")
   void delete(long id);
+
+  @Update("update todo set done = #{done} where id = #{id}")
+  void update(long id, boolean done);
 }

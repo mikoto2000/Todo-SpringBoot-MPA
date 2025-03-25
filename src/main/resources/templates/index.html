@@ -24,15 +24,21 @@
         th:text="${todo.getTitle()}"
         th:classappend="${todo.done} ? 'done' : 'open'"></span>
       <form
+        th:action="@{/updateTodo}"
+        method="post"
         class="done-button"
         th:classappend="${todo.done} ? 'done' : 'open'">
         <input type="hidden" name="id" th:value="${todo.getId()}" />
+        <input type="hidden" name="done" th:value="true" />
         <input type="submit" th:value="Done" />
       </form>
       <form
+        th:action="@{/updateTodo}"
+        method="post"
         class="reopen-button"
         th:classappend="${todo.done} ? 'done' : 'open'">
         <input type="hidden" name="id" th:value="${todo.getId()}" />
+        <input type="hidden" name="done" th:value="false" />
         <input type="submit" th:value="Reopen" />
       </form>
       <form th:action="@{/deleteTodo}" method="post" class="delete-button">
