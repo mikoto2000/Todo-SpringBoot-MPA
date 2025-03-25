@@ -30,6 +30,10 @@ public class IndexController {
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "5") int size) {
 
+    if (page < 0) {
+      page = 0;
+    }
+
     // Todo の取得
     var todos = todoService.getTodos(user.getEmail(), page, size);
 

@@ -17,6 +17,8 @@
   </form>
 
   <h2>Todo List</h2>
+  <a th:href="@{/(size=${size}, page=${page - 1})}">&lt;</a>
+  <a th:href="@{/(size=${size}, page=${page + 1})}">&gt;</a>
   <th:block th:each="todo : ${todos}">
     <div>
       <span

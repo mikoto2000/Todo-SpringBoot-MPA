@@ -15,7 +15,7 @@ import dev.mikoto2000.todo.entity.TodoEntity;
  */
 @Mapper
 public interface TodoMapper {
-  @Select("select id,title,done from todo where email = #{email} order by id desc limit #{limit} offset #{offset}")
+  @Select("select id,title,done from todo where email = #{email} order by done asc, id desc limit #{limit} offset #{offset}")
   List<TodoEntity> findByEmail(String email, int offset, int limit);
 
   @Insert("insert into todo (email, title) values (#{email}, #{title})")
