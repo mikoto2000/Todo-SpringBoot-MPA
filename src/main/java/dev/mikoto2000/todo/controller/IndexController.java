@@ -53,4 +53,13 @@ public class IndexController {
 
     return "redirect:/";
   }
+
+  @PostMapping("/deleteTodo")
+  public String delete(@RequestParam long id) {
+
+    // Todo の削除
+    todoService.deleteTodo(id);
+
+    return "redirect:/";
+  }
 }

@@ -41,4 +41,12 @@ public class TodoService {
     // Todo を追加
     todoMapper.insert(email, title);
   }
+
+  /**
+   * deleteTodo
+   */
+  public void deleteTodo(long id) {
+    // Todo を削除
+    todoMapper.delete(id);
+  }
 }
