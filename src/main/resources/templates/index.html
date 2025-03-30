@@ -2,23 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>MPA TODO Application</title>
+    <title th:text="#{todo.application-name}"></title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" />
 </head>
 <body>
-  <h1>MPA TODO Application</h1>
-  <div>User: <span th:text="${user.getEmail()}"></span></div>
+  <h1 th:text="#{todo.application-name}"></h1>
+  <div><span th:text="#{todo.user}"></span>:<span th:text="${user.getEmail()}"></span></div>
 
-  <h2>Add Todo</h2>
+  <h2 th:text="#{todo.add-todo}"></h2>
   <form th:action="@{/addTodo}" method="post">
-    <input type="text" name="title" placeholder="Title" />
+    <input type="text" name="title" th:placeholder="#{todo.title}" />
     <input type="hidden" name="email" th:value="${user.getEmail()}" />
-    <input type="submit" value="Add" />
+    <input type="submit" th:value="#{todo.add}" />
   </form>
   <div th:if="${validationError != ''}" class="error-message" th:text="${validationError}">
   </div>
 
-  <h2>Todo List</h2>
+  <h2 th:text="#{todo.todo-list}"></h2>
   <a th:href="@{/(size=${size}, page=${page - 1})}">&lt;</a>
   <a th:href="@{/(size=${size}, page=${page + 1})}">&gt;</a>
   <th:block th:each="todo : ${todos}">
@@ -36,7 +36,7 @@
         <input type="hidden" name="done" th:value="true" />
         <input type="hidden" name="page" th:value="${page}" />
         <input type="hidden" name="size" th:value="${size}" />
-        <input type="submit" th:value="Done" />
+        <input type="submit" th:value="#{todo.done}" />
       </form>
       <form
         th:action="@{/updateTodo}"
@@ -47,13 +47,13 @@
         <input type="hidden" name="done" th:value="false" />
         <input type="hidden" name="page" th:value="${page}" />
         <input type="hidden" name="size" th:value="${size}" />
-        <input type="submit" th:value="Reopen" />
+        <input type="submit" th:value="#{todo.reopen}" />
       </form>
       <form th:action="@{/deleteTodo}" method="post" class="delete-button">
         <input type="hidden" name="id" th:value="${todo.getId()}" />
         <input type="hidden" name="page" th:value="${page}" />
         <input type="hidden" name="size" th:value="${size}" />
-        <input type="submit" th:value="Delete" />
+        <input type="submit" th:value="#{todo.delete}" />
       </form>
     </div>
   </th:block>
