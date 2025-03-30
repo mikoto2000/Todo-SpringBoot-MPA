@@ -4,9 +4,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import jakarta.validation.constraints.Size;
 
 import dev.mikoto2000.todo.dto.TodoDto;
 import dev.mikoto2000.todo.service.TodoService;
@@ -16,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Controller
 @Slf4j
+@Validated
 public class IndexController {
 
   /**
@@ -47,6 +51,10 @@ public class IndexController {
     model.addAttribute("todos", todoDtos);
     model.addAttribute("page", page);
     model.addAttribute("size", size);
+    // Set empty validationError attribute if not present
+    if (!model.containsAttribute("validationError")) {
+      model.addAttribute("validationError", "");
+    }
 
     return "index";
   }
@@ -54,7 +62,7 @@ public class IndexController {
   @PostMapping("/addTodo")
   public String add(
       @AuthenticationPrincipal OidcUser user,
-      @RequestParam String title,
+      @RequestParam @Size(max = 100, message="タイトルは100文字以下で入力してください") String title,
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "5") int size) {
 

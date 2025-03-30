@@ -1,3 +1,9 @@
+.error-message {
+  color: red;
+  margin-top: 5px;
+  font-weight: bold;
+}
+
 form.done-button,form.delete-button,form.reopen-button {
   display: inline;
   margin: 0;
