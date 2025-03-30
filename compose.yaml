@@ -11,9 +11,9 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./.devcontainer/config/postgres/initdb.d:/docker-entrypoint-initdb.d
+      - ./sql:/docker-entrypoint-initdb.d
     environment:
-      POSTGRES_DB: keycloak
+      POSTGRES_DB: todo
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
     ports:

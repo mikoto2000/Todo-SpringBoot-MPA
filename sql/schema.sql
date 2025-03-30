@@ -1,5 +1,8 @@
-drop database if exists todo;
-create database todo;
+-- drop database if exists todo;
+-- create database todo;
+
+drop database if exists keycloak;
+create database keycloak;
 
 drop table if exists todo;
 
