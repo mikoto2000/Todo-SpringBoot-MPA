@@ -4,11 +4,13 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,12 +25,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
+import dev.mikoto2000.todo.advice.exception.ControllerExceptionHandler;
 import dev.mikoto2000.todo.configuration.SecurityConfiguration;
 import dev.mikoto2000.todo.model.Todo;
 import dev.mikoto2000.todo.service.TodoService;
 
 @WebMvcTest(controllers = IndexController.class)
-@Import(SecurityConfiguration.class)
+@Import({SecurityConfiguration.class, ControllerExceptionHandler.class})
 public class IndexControllerTest {
 
     @Autowired
@@ -59,7 +62,8 @@ public class IndexControllerTest {
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attributeExists("todos"))
                 .andExpect(model().attribute("page", 0))
-                .andExpect(model().attribute("size", 5));
+                .andExpect(model().attribute("size", 5))
+                .andExpect(model().attribute("validationError", ""));
 
         // TodoService のメソッド呼び出しを検証
         verify(todoService, times(1)).getTodos(eq(email), eq(0), eq(5));
@@ -104,6 +108,28 @@ public class IndexControllerTest {
 
         // TodoService のメソッド呼び出しを検証
         verify(todoService, times(1)).addTodo(eq(email), eq(title));
+    }
+
+    @Test
+    public void testAddTodoValidationError() throws Exception {
+        // テストデータの準備
+        String email = "test@example.com";
+        // 101文字のタイトル (最大は100文字)
+        String tooLongTitle = "a".repeat(101);
+
+        // テスト実行
+        mockMvc.perform(post("/addTodo")
+                .param("title", tooLongTitle)
+                .param("page", "0")
+                .param("size", "5")
+                .with(csrf())
+                .with(oidcLogin().idToken(token -> token.claim("email", email))))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"))
+                .andExpect(flash().attributeExists("validationError"));
+
+        // TodoService は呼ばれていないことを検証
+        verifyNoInteractions(todoService);
     }
 
     @Test
